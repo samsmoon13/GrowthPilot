@@ -4,7 +4,6 @@ import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 import { SimpleNav } from './SimpleNav';
 import { SimpleFooter } from './SimpleFooter';
-import { BackButton } from './BackButton';
 import { DepartmentGeometricTree } from '../trees/GeometricTrees';
 import { getDepartmentById } from '../../config/departments';
 import type { Screen, Question, Answer } from '../../App';
@@ -16,7 +15,7 @@ interface SimpleAnswerQuestionScreenProps {
   currentUser: string;
   currentQuestion: Question | undefined;
   addAnswer: (questionId: string, answer: Answer) => void;
-  notifications: Record<string, Notification[]>;
+  notifications: Record<string, any[]>;
   setCurrentUser: (user: string) => void;
 }
 
@@ -86,8 +85,7 @@ export function SimpleAnswerQuestionScreen({
 
   return (
     <div className="min-h-screen bg-[#faf9f7] relative" style={{ backgroundImage: 'radial-gradient(circle, #e5e7eb 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
-      {canGoBack && <BackButton onClick={goBack} />}
-      <SimpleNav currentScreen="answer-question" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} />
+      <SimpleNav currentScreen="answer-question" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} goBack={goBack} canGoBack={canGoBack} />
 
       {/* Magical Growth Animation Overlay */}
       {showGrowthAnimation && (
@@ -195,7 +193,7 @@ export function SimpleAnswerQuestionScreen({
                     answer.isAI
                       ? 'bg-purple-50 border border-purple-200'
                       : 'bg-gray-50 border border-gray-200'
-                  }`}
+                  } group action-reveal`}
                 >
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-xs font-medium" style={{ color: answer.isAI ? '#9333ea' : dept?.color }}>

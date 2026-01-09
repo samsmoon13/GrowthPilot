@@ -3,10 +3,9 @@ import { Sparkles, Home as HomeIcon, Trees, TreeDeciduous, ArrowRight } from 'lu
 import { Button } from '../ui/button';
 import { SimpleNav } from './SimpleNav';
 import { SimpleFooter } from './SimpleFooter';
-import { BackButton } from './BackButton';
 import { getDepartmentById } from '../../config/departments';
 import { DepartmentGeometricTree } from '../trees/GeometricTrees';
-import type { Screen, Question, Notification } from '../../App';
+import type { Screen, Question } from '../../App';
 
 interface SimpleAIAnswerScreenProps {
   navigateTo: (screen: Screen) => void;
@@ -14,7 +13,7 @@ interface SimpleAIAnswerScreenProps {
   canGoBack: boolean;
   currentUser: string;
   currentQuestion: Question | undefined;
-  notifications: Record<string, Notification[]>;
+  notifications: Record<string, any[]>;
   questions: Question[];
   setCurrentQuestionId: (id: string) => void;
   setCurrentUser: (user: string) => void;
@@ -76,8 +75,7 @@ export function SimpleAIAnswerScreen({
 
   return (
     <div className="min-h-screen bg-[#faf9f7] relative" style={{ backgroundImage: 'radial-gradient(circle, #e5e7eb 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
-      {canGoBack && <BackButton onClick={goBack} />}
-      <SimpleNav currentScreen="my-garden" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} />
+      <SimpleNav currentScreen="my-garden" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} goBack={goBack} canGoBack={canGoBack} />
       
       <div className="max-w-3xl mx-auto px-6 py-12">
         {isGenerating ? (

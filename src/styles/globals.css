@@ -1,45 +1,91 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --font-size: 16px;
+  /* Canonical system font stack for Apple-like feel */
+  --system-font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-size: 18px;
   --background: #faf9f7;
   --foreground: #3d2817;
   --card: #ffffff;
   --card-foreground: #3d2817;
   --popover: oklch(1 0 0);
   --popover-foreground: #3d2817;
-  --primary: #3d2817;
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.95 0.0058 264.53);
+  --primary: #111827; /* deep neutral for buttons */
+  --primary-foreground: #ffffff;
+  --secondary: #6b7280;
   --secondary-foreground: #3d2817;
-  --muted: #ececf0;
-  --muted-foreground: #717182;
-  --accent: #e9ebef;
+  --muted: #f3f4f6;
+  --muted-foreground: #6b6b72;
+  --accent: #f8fafc;
   --accent-foreground: #3d2817;
-  --destructive: #d4183d;
+  --destructive: #ef4444;
   --destructive-foreground: #ffffff;
-  --border: rgba(61, 40, 23, 0.1);
+  --border: rgba(61, 40, 23, 0.08);
   --input: transparent;
-  --input-background: #f3f3f5;
+  --input-background: #f8fafc;
   --switch-background: #cbced4;
-  --font-weight-medium: 800;
+  --font-weight-medium: 700;
   --font-weight-normal: 400;
   --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.375rem;
+  --radius: 0.5rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: #3d2817;
-  --sidebar-primary: #3d2817;
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --apple-radius: 18px;
+  --apple-shadow: 0 12px 30px rgba(0,0,0,0.06);
 }
+
+/* subtle hover/focus utility for Apple-like feel */
+.hover-apple:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.04); }
+.action-reveal { opacity: 0; transform: translateY(6px); transition: all 180ms ease-in-out; }
+.group:hover .action-reveal { opacity: 1; transform: translateY(0); }
+
+/* Nav item style */
+.nav-apple .nav-item {
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+.nav-apple .nav-item:hover {
+  background: transparent;
+  text-decoration: none;
+}
+.nav-apple .nav-item.active {
+  color: var(--primary);
+  box-shadow: inset 0 -3px 0 var(--primary);
+}
+
+/* action-reveal position helper for absolute buttons */
+.action-reveal-abs { opacity: 0; transform: translateY(6px); transition: all 180ms ease-in-out; }
+.group:hover .action-reveal-abs { opacity: 1; transform: translateY(0); }
+
+@layer base {
+  * { @apply border-border outline-ring/50; }
+  body { @apply bg-background text-foreground; }
+}
+
+html { font-size: var(--font-size); }
+
+/* system font */
+html, body { font-family: var(--system-font-stack); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+
+/* nav adjustments */
+.nav-apple { padding: 0.5rem 0.75rem; border-radius: 12px; box-shadow: var(--apple-shadow); }
+
+/* subtle focus outlines */
+:focus { outline: 3px solid rgba(17,24,39,0.06); outline-offset: 2px; }
+
+/* make interactive blocks feel airy */
+.btn-apple { border-radius: 12px; padding: 10px 16px; }
+
+/* helper for subtle dividing lines */
+.soft-border { border-color: rgba(17,24,39,0.06); }
+
+/* make inputs and cards feel Apple-like */
+input, textarea { border-radius: 12px; padding: 12px; border: 1px solid rgba(17,24,39,0.06); background: var(--input-background); }
+
+/* smooth shadows for modals */
+.modal-apple { box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-radius: 16px; }
 
 .dark {
   --background: oklch(0.145 0 0);
@@ -205,4 +251,32 @@ html {
 
 .animate-float {
   animation: float 8s ease-in-out infinite;
+}
+
+/* Apple-like system font + smoothing */
+html, body {
+  font-family: var(--system-font-stack);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* Use soft rounded cards/shadows for Apple-like aesthetic */
+.card-apple {
+  border-radius: var(--apple-radius);
+  box-shadow: var(--apple-shadow);
+}
+
+/* Make buttons a bit more touch-friendly */
+.button-apple {
+  padding: 12px 18px;
+  border-radius: 12px;
+}
+
+/* Nav helper */
+.nav-apple {
+  padding: 0.5rem 0.75rem;
+  border-radius: 12px;
+  box-shadow: var(--apple-shadow);
 }

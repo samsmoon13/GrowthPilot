@@ -1,11 +1,10 @@
 import { useState, useRef } from 'react';
 import { Filter, Star, Grid3x3, Sparkles } from 'lucide-react';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { DndProvider, useDrag } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Button } from '../ui/button';
 import { SimpleNav } from './SimpleNav';
 import { SimpleFooter } from './SimpleFooter';
-import { BackButton } from './BackButton';
 import { DepartmentGeometricTree } from '../trees/GeometricTrees';
 import { getDepartmentById, departments } from '../../config/departments';
 import type { Screen, Question, Notification } from '../../App';
@@ -78,7 +77,7 @@ const DraggableTree: React.FC<DraggableTreeProps> = ({
 
   return (
     <div
-      ref={drag}
+      ref={(el) => (drag as any)(el)}
       className="absolute transform -translate-x-1/2 -translate-y-1/2 cursor-move transition-all duration-300"
       style={{
         left: position.left,
@@ -259,8 +258,7 @@ export function SimpleTreeMapScreen({
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="min-h-screen bg-[#faf9f7] relative">
-        {canGoBack && <BackButton onClick={goBack} />}
-        <SimpleNav currentScreen="forest" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} />
+        <SimpleNav currentScreen="forest" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} goBack={goBack} canGoBack={canGoBack} />
         
         <div className="px-6 py-8">
           {/* Header */}

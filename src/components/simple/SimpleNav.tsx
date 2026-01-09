@@ -1,19 +1,22 @@
-import { Home, TreeDeciduous, Trees, User, Bell, ArrowLeft, ChevronDown, LogOut, MessageCircle } from 'lucide-react';
+import { ArrowLeft, Bell, ChevronDown, LogOut, MessageCircle } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
-import logoImage from 'figma:asset/26f77b31633d6e8f651ea4a90982052eaca4f33a.png';
-import type { Screen, Notification } from '../../App';
+import type { Screen } from '../../App';
 import { USERS } from '../../App';
 import { getDepartmentById } from '../../config/departments';
+
+// use public logo at /logo.png to avoid bundling/type issues
 
 interface SimpleNavProps {
   currentScreen: Screen;
   navigateTo: (screen: Screen) => void;
   currentUser: string;
-  notifications?: Record<string, Notification[]>;
+  notifications?: Record<string, any[]>;
   setCurrentUser?: (user: string) => void;
+  goBack?: () => void;
+  canGoBack?: boolean;
 }
 
-export function SimpleNav({ currentScreen, navigateTo, currentUser, notifications, setCurrentUser }: SimpleNavProps) {
+export function SimpleNav({ currentScreen, navigateTo, currentUser, notifications, setCurrentUser, goBack, canGoBack }: SimpleNavProps) {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -47,24 +50,24 @@ export function SimpleNav({ currentScreen, navigateTo, currentUser, notification
     navigateTo('login');
   };
 
-  const handleNotificationClick = (notification: Notification) => {
+  const handleNotificationClick = (_notification: any) => {
     setIsProfileDropdownOpen(false);
     navigateTo('notifications');
   };
 
   const navItems = [
-    { screen: 'home' as Screen, label: 'Home', icon: Home },
-    { screen: 'my-garden' as Screen, label: 'My Garden', icon: TreeDeciduous },
-    { screen: 'forest' as Screen, label: 'Forest', icon: Trees },
-    { screen: 'login' as Screen, label: 'My Profile', icon: User },
+    { screen: 'home' as Screen, label: 'Home' },
+    { screen: 'my-garden' as Screen, label: 'My Garden' },
+    { screen: 'forest' as Screen, label: 'Forest' },
+    { screen: 'login' as Screen, label: 'My Profile' },
   ];
 
   const userNotifications = notifications?.[currentUser] || [];
   const unreadCount = userNotifications.filter(n => !n.read).length;
   const recentNotifications = userNotifications.slice(0, 3); // Show only 3 most recent
 
-  // Show back button for screens that aren't home
-  const showBackButton = currentScreen !== 'home';
+  // Show back button for screens that aren't home or when canGoBack is true
+  const showBackButton = canGoBack || currentScreen !== 'home';
 
   const formatTimestamp = (timestamp: Date) => {
     const now = new Date();
@@ -79,19 +82,23 @@ export function SimpleNav({ currentScreen, navigateTo, currentUser, notification
     return `${days}d ago`;
   };
 
+  const avatarLetter = currentUser && currentUser.length > 0 ? currentUser[0] : 'G';
+  const displayName = currentUser && currentUser.length > 0 ? currentUser : 'Guest';
+
   return (
-    <nav className="bg-[#faf9f7] border-b border-[#3d2817]/10">
+    <nav className="bg-[#faf9f7] border-b border-[#3d2817]/10 nav-apple">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo and Back Button */}
           <div className="flex items-center gap-3">
+            {/* Back button in nav (top-left). Use goBack when available, otherwise navigate home. */}
             {showBackButton && (
               <button
-                onClick={() => navigateTo('home')}
+                onClick={() => (goBack ? goBack() : navigateTo('home'))}
                 className="flex items-center gap-2 px-3 py-2 rounded-lg text-[#3d2817] hover:bg-[#3d2817]/5 transition-colors"
               >
                 <ArrowLeft className="w-5 h-5" />
-                <span className="text-sm font-bold">Back</span>
+                <span className="text-lg font-semibold">Back</span>
               </button>
             )}
           </div>
@@ -99,20 +106,18 @@ export function SimpleNav({ currentScreen, navigateTo, currentUser, notification
           {/* Navigation */}
           <div className="flex items-center gap-1">
             {navItems.map((item) => {
-              const Icon = item.icon;
               const isActive = currentScreen === item.screen;
               return (
                 <button
                   key={item.screen}
                   onClick={() => navigateTo(item.screen)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+                  className={`px-4 py-2 rounded-lg transition-colors ${
                     isActive
                       ? 'bg-gray-900 text-white'
                       : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                   }`}
                 >
-                  <Icon className="w-4 h-4" />
-                  <span className="text-sm">{item.label}</span>
+                  <span className="text-lg font-semibold">{item.label}</span>
                 </button>
               );
             })}
@@ -125,7 +130,7 @@ export function SimpleNav({ currentScreen, navigateTo, currentUser, notification
               onClick={() => navigateTo('notifications')}
               className="relative p-2 rounded-lg hover:bg-gray-100 transition-colors"
             >
-              <Bell className={`w-5 h-5 ${currentScreen === 'notifications' ? 'text-gray-900' : 'text-gray-600'}`} />
+              <Bell className={`w-6 h-6 ${currentScreen === 'notifications' ? 'text-gray-900' : 'text-gray-600'}`} />
               {unreadCount > 0 && (
                 <span className="absolute top-0 right-0 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
                   {unreadCount > 9 ? '9+' : unreadCount}
@@ -139,10 +144,10 @@ export function SimpleNav({ currentScreen, navigateTo, currentUser, notification
                 onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
                 className="flex items-center gap-2"
               >
-                <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                  <span className="text-sm text-gray-700">{currentUser[0]}</span>
+                <div className="w-9 h-9 bg-gray-200 rounded-full flex items-center justify-center">
+                  <span className="text-base text-gray-700">{avatarLetter}</span>
                 </div>
-                <span className="text-sm text-gray-700">{currentUser}</span>
+                <span className="text-base text-gray-700">{displayName}</span>
                 <ChevronDown className="w-4 h-4" />
               </button>
 
@@ -152,7 +157,7 @@ export function SimpleNav({ currentScreen, navigateTo, currentUser, notification
                     {/* Current User Header */}
                     <div className="px-3 py-2 border-b border-gray-200 mb-2">
                       <p className="text-xs text-gray-500">Signed in as</p>
-                      <p className="text-sm text-gray-900">{currentUser}</p>
+                      <p className="text-sm text-gray-900">{displayName}</p>
                     </div>
 
                     {/* Notifications Section */}

@@ -3,7 +3,6 @@ import { Trees, Filter, Trophy, Medal, Award, Map } from 'lucide-react';
 import { Button } from '../ui/button';
 import { SimpleNav } from './SimpleNav';
 import { SimpleFooter } from './SimpleFooter';
-import { BackButton } from './BackButton';
 import { DepartmentGeometricTree } from '../trees/GeometricTrees';
 import { getDepartmentById, departments } from '../../config/departments';
 import type { Screen, Question } from '../../App';
@@ -15,7 +14,7 @@ interface SimpleForestScreenProps {
   canGoBack: boolean;
   currentUser: string;
   questions: Question[];
-  notifications: Record<string, Notification[]>;
+  notifications: Record<string, any[]>;
   setCurrentQuestionId: (id: string | null) => void;
   setCurrentUser: (user: string) => void;
 }
@@ -50,8 +49,7 @@ export function SimpleForestScreen({ navigateTo, goBack, canGoBack, currentUser,
 
   return (
     <div className="min-h-screen bg-[#faf9f7] relative" style={{ backgroundImage: 'radial-gradient(circle, #e5e7eb 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
-      {canGoBack && <BackButton onClick={goBack} />}
-      <SimpleNav currentScreen="forest" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} />
+      <SimpleNav currentScreen="forest" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} goBack={goBack} canGoBack={canGoBack} />
       
       <div className="max-w-7xl mx-auto px-6 py-12">
         {/* Header */}

@@ -1,20 +1,24 @@
 import { useState } from 'react';
-import { Sprout, LogIn, UserPlus, Sparkles } from 'lucide-react';
+import { Sprout, LogIn, UserPlus } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
+import { SimpleNav } from './SimpleNav';
 import { SimpleFooter } from './SimpleFooter';
 import { DepartmentSeed } from '../seeds/SeedIcons';
-import { DepartmentGeometricTree } from '../trees/GeometricTrees';
 import { departments } from '../../config/departments';
-import type { Screen } from '../../App';
+import type { Screen, Notification } from '../../App';
 
 interface SimpleLoginScreenProps {
   navigateTo: (screen: Screen) => void;
+  currentUser: string;
   setCurrentUser: (user: string) => void;
   setIsLoggedIn: (isLoggedIn: boolean) => void;
+  goBack?: () => void;
+  canGoBack?: boolean;
+  notifications?: Record<string, Notification[]>;
 }
 
-export function SimpleLoginScreen({ navigateTo, setCurrentUser, setIsLoggedIn }: SimpleLoginScreenProps) {
+export function SimpleLoginScreen({ navigateTo, currentUser, setCurrentUser, setIsLoggedIn, goBack, canGoBack, notifications }: SimpleLoginScreenProps) {
   const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -73,8 +77,20 @@ export function SimpleLoginScreen({ navigateTo, setCurrentUser, setIsLoggedIn }:
   };
 
   return (
-    <div className="min-h-screen bg-[#faf9f7] flex items-center justify-center p-6" style={{ backgroundImage: 'radial-gradient(circle, #e5e7eb 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
-      <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-12 items-center">
+    <div className="min-h-screen bg-[#faf9f7]" style={{ backgroundImage: 'radial-gradient(circle, #e5e7eb 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
+      {/* Navigation bar - same as other pages */}
+      <SimpleNav 
+        currentScreen="login" 
+        navigateTo={navigateTo} 
+        currentUser={currentUser} 
+        notifications={notifications} 
+        setCurrentUser={setCurrentUser}
+        goBack={goBack}
+        canGoBack={canGoBack}
+      />
+
+      <div className="flex items-center justify-center p-6 min-h-[calc(100vh-64px)]">
+        <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-12 items-center">
         {/* Left Side - Branding */}
         <div className="text-center lg:text-left space-y-8">
           <div className="inline-block">
@@ -102,24 +118,24 @@ export function SimpleLoginScreen({ navigateTo, setCurrentUser, setIsLoggedIn }:
             <div className="flex gap-2 mb-8 p-1 bg-gray-100 rounded-xl">
               <button
                 onClick={() => setMode('login')}
-                className={`flex-1 py-3 rounded-lg text-sm font-medium transition-all ${
+                className={`flex-1 py-3 rounded-lg text-sm md:text-base font-medium transition-all ${
                   mode === 'login'
                     ? 'bg-white text-gray-900 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
-                <LogIn className="w-4 h-4 inline mr-2" />
+                <LogIn className="w-4 h-4 md:w-5 md:h-5 inline mr-2" />
                 Login
               </button>
               <button
                 onClick={() => setMode('signup')}
-                className={`flex-1 py-3 rounded-lg text-sm font-medium transition-all ${
+                className={`flex-1 py-3 rounded-lg text-sm md:text-base font-medium transition-all ${
                   mode === 'signup'
                     ? 'bg-white text-gray-900 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
-                <UserPlus className="w-4 h-4 inline mr-2" />
+                <UserPlus className="w-4 h-4 md:w-5 md:h-5 inline mr-2" />
                 Sign Up
               </button>
             </div>
@@ -128,8 +144,8 @@ export function SimpleLoginScreen({ navigateTo, setCurrentUser, setIsLoggedIn }:
             {mode === 'login' && (
               <div className="space-y-6">
                 <div className="text-center mb-6">
-                  <h2 className="text-gray-900 mb-2">Welcome Back!</h2>
-                  <p className="text-gray-600 text-sm">Log in to continue growing knowledge</p>
+                  <h2 className="text-gray-900 mb-2 text-xl md:text-2xl">Welcome Back!</h2>
+                  <p className="text-gray-600 text-sm md:text-base">Log in to continue growing knowledge</p>
                 </div>
 
                 <div>
@@ -173,7 +189,7 @@ export function SimpleLoginScreen({ navigateTo, setCurrentUser, setIsLoggedIn }:
                 <div className="text-center">
                   <button
                     onClick={() => setMode('signup')}
-                    className="text-sm text-gray-600 hover:text-gray-900 underline"
+                    className="text-sm md:text-base text-gray-600 hover:text-gray-900 underline"
                   >
                     Don't have an account? Sign up
                   </button>
@@ -185,8 +201,8 @@ export function SimpleLoginScreen({ navigateTo, setCurrentUser, setIsLoggedIn }:
             {mode === 'signup' && (
               <div className="space-y-6">
                 <div className="text-center mb-6">
-                  <h2 className="text-gray-900 mb-2">Join GrowthPilot</h2>
-                  <p className="text-gray-600 text-sm">Start your knowledge journey today</p>
+                  <h2 className="text-gray-900 mb-2 text-xl md:text-2xl">Join GrowthPilot</h2>
+                  <p className="text-gray-600 text-sm md:text-base">Start your knowledge journey today</p>
                 </div>
 
                 <div>
@@ -266,7 +282,7 @@ export function SimpleLoginScreen({ navigateTo, setCurrentUser, setIsLoggedIn }:
                 <div className="text-center">
                   <button
                     onClick={() => setMode('login')}
-                    className="text-sm text-gray-600 hover:text-gray-900 underline"
+                    className="text-sm md:text-base text-gray-600 hover:text-gray-900 underline"
                   >
                     Already have an account? Log in
                   </button>
@@ -278,6 +294,7 @@ export function SimpleLoginScreen({ navigateTo, setCurrentUser, setIsLoggedIn }:
           {/* Footer Note */}
           <SimpleFooter />
         </div>
+      </div>
       </div>
     </div>
   );

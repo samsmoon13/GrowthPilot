@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 interface GeometricTreeProps {
   color: string;
@@ -325,7 +325,7 @@ export const TechTree: React.FC<GeometricTreeProps> = ({ color, size = 80, class
     return (
       <svg width={size} height={size} viewBox="0 0 80 80" className={className}>
         <ellipse cx="40" cy="77" rx="26" ry="6" fill="#8B7355" opacity="0.3" />
-        <rect x="38" y="16" width="4" height="61" fill="#6B4423" />
+        <rect x="38" y="16" width="10" height="61" fill="#6B4423" rx="3" />
         <g>
           <path d="M 40 12 L 18 26 L 18 46 L 40 32 Z" fill={darkColor} />
           <path d="M 40 12 L 62 26 L 62 46 L 40 32 Z" fill={cubeColor} />
@@ -370,9 +370,6 @@ export const TechTree: React.FC<GeometricTreeProps> = ({ color, size = 80, class
     </svg>
   );
 };
-
-// Similar implementation for other departments...
-// For brevity, I'll create a unified component
 
 function adjustColor(color: string, percent: number): string {
   const num = parseInt(color.replace('#', ''), 16);

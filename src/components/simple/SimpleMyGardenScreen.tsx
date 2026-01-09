@@ -3,7 +3,6 @@ import { User as UserIcon, Sprout, TreeDeciduous, ArrowRight, Eye, Star, CheckCi
 import { Button } from '../ui/button';
 import { SimpleNav } from './SimpleNav';
 import { SimpleFooter } from './SimpleFooter';
-import { BackButton } from './BackButton';
 import { DepartmentGeometricTree } from '../trees/GeometricTrees';
 import { DepartmentSeed } from '../seeds/SeedIcons';
 import { getDepartmentById } from '../../config/departments';
@@ -159,9 +158,8 @@ export function SimpleMyGardenScreen({ navigateTo, goBack, canGoBack, currentUse
   }
 
   return (
-    <div className="min-h-screen bg-[#faf9f7] relative">
-      {canGoBack && <BackButton onClick={goBack} />}
-      <SimpleNav currentScreen="my-garden" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} />
+    <div className="min-h-screen bg-[#faf9f7] relative" style={{ backgroundImage: 'radial-gradient(circle, #e5e7eb 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
+      <SimpleNav currentScreen="my-garden" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} goBack={goBack} canGoBack={canGoBack} />
       
       <div className="max-w-6xl mx-auto px-6 py-12">
         {/* Header */}
@@ -230,7 +228,7 @@ export function SimpleMyGardenScreen({ navigateTo, goBack, canGoBack, currentUse
               return (
                 <div
                   key={question.id}
-                  className="bg-white rounded-2xl p-6 border border-gray-200 hover:shadow-lg transition-shadow"
+                  className="bg-white rounded-2xl p-6 border border-gray-200 hover:shadow-lg transition-shadow group"
                 >
                   {/* Tree/Seed visualization */}
                   <div className="flex justify-center mb-6">

@@ -4,11 +4,10 @@ import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 import { SimpleNav } from './SimpleNav';
 import { SimpleFooter } from './SimpleFooter';
-import { BackButton } from './BackButton';
 import { DepartmentSeed } from '../seeds/SeedIcons';
 import { DepartmentGeometricTree } from '../trees/GeometricTrees';
 import { departments, getDepartmentById } from '../../config/departments';
-import type { Screen, Question, Answer, Notification, USERS } from '../../App';
+import type { Screen, Question, Answer, Notification } from '../../App';
 import { USERS } from '../../App';
 
 interface SimpleAskScreenProps {
@@ -142,8 +141,7 @@ export function SimpleAskScreen({ navigateTo, goBack, canGoBack, currentUser, ad
 
   return (
     <div className="min-h-screen bg-[#faf9f7] relative" style={{ backgroundImage: 'radial-gradient(circle, #e5e7eb 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
-      {canGoBack && <BackButton onClick={goBack} />}
-      <SimpleNav currentScreen="my-garden" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} />
+      <SimpleNav currentScreen="my-garden" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} goBack={goBack} canGoBack={canGoBack} />
       
       <div className="max-w-2xl mx-auto px-6 py-12">
         {!showAIResponse && !isGenerating && !showAIPreview && (

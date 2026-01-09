@@ -94,10 +94,10 @@ export function ProfileScreen({ navigateTo, currentUser, questions, openMenu }: 
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
-                onClick={() => navigateTo('login')}
-                className="size-10 bg-green-100 rounded-full flex items-center justify-center hover:bg-green-200 transition-colors"
+                onClick={() => navigateTo('home')}
+                className="flex items-center gap-2 px-3 py-2 rounded-lg text-[#3d2817] hover:bg-[#3d2817]/5 transition-colors"
               >
-                <Sprout className="size-5 text-green-600" />
+                <span className="text-lg font-semibold">Back</span>
               </button>
               <div>
                 <h2 className="text-gray-900">Profile</h2>

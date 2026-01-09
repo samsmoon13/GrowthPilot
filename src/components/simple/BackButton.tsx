@@ -7,15 +7,13 @@ interface BackButtonProps {
 
 export function BackButton({ onClick }: BackButtonProps) {
   return (
-    <div className="absolute top-4 left-4 z-50">
-      <Button
-        onClick={onClick}
-        variant="ghost"
-        className="flex items-center gap-2 text-[#3d2817] hover:text-[#3d2817] hover:bg-[#3d2817]/10 font-semibold transition-all duration-200 hover:scale-105"
-      >
-        <ArrowLeft className="w-5 h-5" />
-        <span>Back</span>
-      </Button>
-    </div>
+    <Button
+      onClick={onClick}
+      variant="ghost"
+      className="flex items-center gap-2 px-3 py-2 rounded-lg text-[#3d2817] hover:text-[#3d2817] hover:bg-[#3d2817]/5 transition-colors"
+    >
+      <ArrowLeft className="w-5 h-5" />
+      <span className="text-lg font-semibold">Back</span>
+    </Button>
   );
 }

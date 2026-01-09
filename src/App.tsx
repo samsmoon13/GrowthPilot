@@ -70,10 +70,12 @@ export const USERS: Record<string, User> = {
 };
 
 export default function App() {
-  const [currentScreen, setCurrentScreen] = useState<Screen>('login');
+  // Default to the home screen rather than the login screen so the user lands on the main page
+  const [currentScreen, setCurrentScreen] = useState<Screen>('home');
   const [currentUser, setCurrentUser] = useState<string>('');
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [screenHistory, setScreenHistory] = useState<Screen[]>(['login']);
+  // Initialize history to start at 'home'
+  const [screenHistory, setScreenHistory] = useState<Screen[]>(['home']);
   
   // Notifications state - per user
   const [notifications, setNotifications] = useState<Record<string, Notification[]>>({
@@ -210,7 +212,6 @@ export default function App() {
         { id: 'f3', text: 'Chaos engineering: break things on purpose to learn.', author: 'Sarah', isAI: false, timestamp: new Date() },
         { id: 'f4', text: 'Implement proper retry logic with exponential backoff.', author: 'David', isAI: false, timestamp: new Date() },
         { id: 'f5', text: 'Have runbooks for common incidents.', author: 'Emma', isAI: false, timestamp: new Date() },
-        { id: 'f6', text: 'Practice incident response through regular drills.', author: 'Lisa', isAI: false, timestamp: new Date() },
       ],
       growthLevel: 5,
       bestAnswerId: 'f2'

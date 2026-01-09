@@ -1,9 +1,7 @@
 import { Bell, Plus, MessageCircle } from 'lucide-react';
 import { Button } from '../ui/button';
-import { Textarea } from '../ui/textarea';
 import { SimpleNav } from './SimpleNav';
 import { SimpleFooter } from './SimpleFooter';
-import { BackButton } from './BackButton';
 import { getDepartmentById } from '../../config/departments';
 import type { Screen, Question, Notification, Answer } from '../../App';
 
@@ -13,8 +11,8 @@ interface SimpleNotificationsScreenProps {
   canGoBack: boolean;
   currentUser: string;
   questions: Question[];
-  notifications: Record<string, Notification[]>;
-  setNotifications: (notifications: Record<string, Notification[]>) => void;
+  notifications: Record<string, any[]>;
+  setNotifications: (notifications: Record<string, any[]>) => void;
   addAnswer: (questionId: string, answer: Answer) => void;
   setCurrentQuestionId: (id: string | null) => void;
   setCurrentUser: (user: string) => void;
@@ -58,13 +56,14 @@ export function SimpleNotificationsScreen({
 
   return (
     <div className="min-h-screen bg-[#faf9f7] relative" style={{ backgroundImage: 'radial-gradient(circle, #e5e7eb 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
-      {canGoBack && <BackButton onClick={goBack} />}
       <SimpleNav
         currentScreen="notifications"
         navigateTo={navigateTo}
         currentUser={currentUser}
         notifications={notifications}
         setCurrentUser={setCurrentUser}
+        goBack={goBack}
+        canGoBack={canGoBack}
       />
 
       <div className="max-w-3xl mx-auto px-6 py-12">
@@ -105,7 +104,7 @@ export function SimpleNotificationsScreen({
                         : 'bg-blue-50 border-blue-200'
                     }`}
                   >
-                    <div className="flex items-start gap-4">
+                    <div className="flex items-start gap-4 group">
                       <div
                         className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
                         style={{ backgroundColor: dept?.color + '20' }}
@@ -128,9 +127,11 @@ export function SimpleNotificationsScreen({
                           {notification.timestamp.toLocaleString()}
                         </p>
                       </div>
-                      <Button size="sm" variant="outline">
-                        Answer
-                      </Button>
+                      <div className="flex items-center">
+                        <Button size="sm" variant="outline" className="action-reveal-abs">
+                          Answer
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 );
