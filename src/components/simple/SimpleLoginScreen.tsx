@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Sprout, LogIn, UserPlus } from 'lucide-react';
+import { Sprout, LogIn, UserPlus, LogOut, User } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { SimpleNav } from './SimpleNav';
@@ -13,12 +13,15 @@ interface SimpleLoginScreenProps {
   currentUser: string;
   setCurrentUser: (user: string) => void;
   setIsLoggedIn: (isLoggedIn: boolean) => void;
+  isLoggedIn: boolean;
   goBack?: () => void;
   canGoBack?: boolean;
   notifications?: Record<string, Notification[]>;
+  setCurrentQuestionId?: (id: string) => void;
+  setNotifications?: (notifications: Record<string, Notification[]>) => void;
 }
 
-export function SimpleLoginScreen({ navigateTo, currentUser, setCurrentUser, setIsLoggedIn, goBack, canGoBack, notifications }: SimpleLoginScreenProps) {
+export function SimpleLoginScreen({ navigateTo, currentUser, setCurrentUser, setIsLoggedIn, isLoggedIn, goBack, canGoBack, notifications, setCurrentQuestionId, setNotifications }: SimpleLoginScreenProps) {
   const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -68,6 +71,15 @@ export function SimpleLoginScreen({ navigateTo, currentUser, setCurrentUser, set
     navigateTo('home');
   };
 
+  const handleLogout = () => {
+    setCurrentUser('');
+    setIsLoggedIn(false);
+    setUsername('');
+    setPassword('');
+    setEmail('');
+    setSelectedDepartments([]);
+  };
+
   const toggleDepartment = (deptId: string) => {
     if (selectedDepartments.includes(deptId)) {
       setSelectedDepartments(selectedDepartments.filter(d => d !== deptId));
@@ -85,40 +97,78 @@ export function SimpleLoginScreen({ navigateTo, currentUser, setCurrentUser, set
         currentUser={currentUser} 
         notifications={notifications} 
         setCurrentUser={setCurrentUser}
+        setCurrentQuestionId={setCurrentQuestionId}
+        setNotifications={setNotifications}
         goBack={goBack}
         canGoBack={canGoBack}
       />
 
       <div className="flex items-center justify-center p-6 min-h-[calc(100vh-64px)]">
-        <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-12 items-center">
-        {/* Left Side - Branding */}
-        <div className="text-center lg:text-left space-y-8">
-          <div className="inline-block">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-16 h-16 bg-[rgb(213,192,93)] rounded-2xl flex items-center justify-center rotate-12 transform hover:rotate-0 transition-transform duration-300">
-                <Sprout className="w-8 h-8 text-white" />
+        {/* Show Profile when logged in */}
+        {isLoggedIn && currentUser ? (
+          <div className="w-full max-w-md">
+            <div className="bg-white rounded-3xl border-2 border-gray-900 p-8 shadow-xl">
+              {/* Profile Header */}
+              <div className="text-center mb-8">
+                <div className="w-24 h-24 bg-[rgb(213,192,93)] rounded-full flex items-center justify-center mx-auto mb-4">
+                  <User className="w-12 h-12 text-white" />
+                </div>
+                <h2 className="text-2xl text-gray-900 mb-2">My Profile</h2>
+                <p className="text-gray-600">Welcome, {currentUser}!</p>
               </div>
-              <h1 className="text-4xl text-[#3d2817]">GrowthPilot</h1>
+
+              {/* User Info */}
+              <div className="space-y-4 mb-8">
+                <div className="bg-gray-50 rounded-xl p-4">
+                  <p className="text-sm text-gray-500 mb-1">Username</p>
+                  <p className="text-lg text-gray-900 font-medium">{currentUser}</p>
+                </div>
+              </div>
+
+              {/* Logout Button */}
+              <Button
+                onClick={handleLogout}
+                variant="outline"
+                className="w-full h-12 rounded-xl border-2 border-red-500 text-red-500 hover:bg-red-50"
+              >
+                <LogOut className="mr-2 w-5 h-5" />
+                Logout
+              </Button>
             </div>
-            <p className="text-xl text-gray-600 mb-6">
-              Plant seeds of curiosity. Grow forests of knowledge.
-            </p>
+            
+            <SimpleFooter />
+          </div>
+        ) : (
+          /* Show Login/Signup when not logged in */
+          <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left Side - Branding */}
+          <div className="text-center lg:text-left space-y-8">
+            <div className="inline-block">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-16 h-16 bg-[rgb(213,192,93)] rounded-2xl flex items-center justify-center rotate-12 transform hover:rotate-0 transition-transform duration-300">
+                  <Sprout className="w-8 h-8 text-white" />
+                </div>
+                <h1 className="text-4xl text-[#3d2817]">GrowthPilot</h1>
+              </div>
+              <p className="text-xl text-gray-600 mb-6">
+                Plant seeds of curiosity. Grow forests of knowledge.
+              </p>
+            </div>
+
+            {/* Visual Elements */}
+            <div className="hidden lg:block">
+              {/* Removed animated visualization */}
+            </div>
           </div>
 
-          {/* Visual Elements */}
-          <div className="hidden lg:block">
-            {/* Removed animated visualization */}
-          </div>
-        </div>
-
-        {/* Right Side - Login/Signup Form */}
-        <div className="w-full max-w-md mx-auto">
-          <div className="bg-white rounded-3xl border-2 border-gray-900 p-8 shadow-xl">
-            {/* Toggle Tabs */}
-            <div className="flex gap-2 mb-8 p-1 bg-gray-100 rounded-xl">
-              <button
-                onClick={() => setMode('login')}
-                className={`flex-1 py-3 rounded-lg text-sm md:text-base font-medium transition-all ${
+          {/* Right Side - Login/Signup Form */}
+          <div className="w-full max-w-md mx-auto">
+            <div className="bg-white rounded-3xl border-2 border-gray-900 p-8 shadow-xl">
+              {/* Toggle Tabs */}
+              <div className="flex gap-2 mb-8 p-1 bg-gray-100 rounded-xl">
+                <button
+                  onClick={() => setMode('login')}
+                  className={`flex-1 py-3 rounded-lg text-sm md:text-base font-medium transition-all ${
                   mode === 'login'
                     ? 'bg-white text-gray-900 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
@@ -294,7 +344,8 @@ export function SimpleLoginScreen({ navigateTo, currentUser, setCurrentUser, set
           {/* Footer Note */}
           <SimpleFooter />
         </div>
-      </div>
+        </div>
+        )}
       </div>
     </div>
   );

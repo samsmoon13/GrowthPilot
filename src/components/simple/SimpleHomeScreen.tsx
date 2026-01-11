@@ -11,12 +11,14 @@ interface SimpleHomeScreenProps {
   currentUser: string;
   notifications: Record<string, Notification[]>;
   setCurrentUser: (user: string) => void;
+  setCurrentQuestionId: (id: string) => void;
+  setNotifications: (notifications: Record<string, Notification[]>) => void;
 }
 
-export function SimpleHomeScreen({ navigateTo, goBack, canGoBack, currentUser, notifications, setCurrentUser }: SimpleHomeScreenProps) {
+export function SimpleHomeScreen({ navigateTo, goBack, canGoBack, currentUser, notifications, setCurrentUser, setCurrentQuestionId, setNotifications }: SimpleHomeScreenProps) {
   return (
     <div className="min-h-screen bg-[#faf9f7] relative overflow-hidden flex flex-col" style={{ backgroundImage: 'radial-gradient(circle, #e5e7eb 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
-      <SimpleNav currentScreen="home" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} goBack={goBack} canGoBack={canGoBack} />
+      <SimpleNav currentScreen="home" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} setCurrentQuestionId={setCurrentQuestionId} setNotifications={setNotifications} goBack={goBack} canGoBack={canGoBack} />
       
       {/* Center hero so actions fit without scrolling */}
       <div className="max-w-2xl mx-auto px-4 py-8 text-center relative z-10 flex-1 flex flex-col justify-center">
@@ -32,7 +34,7 @@ export function SimpleHomeScreen({ navigateTo, goBack, canGoBack, currentUser, n
         </div>
 
         {/* Title */}
-        <h1 className="text-5xl md:text-7xl font-extrabold text-[#3d2817] mb-4 leading-tight uppercase tracking-tight transform hover:scale-105 transition-transform duration-300">
+        <h1 className="text-6xl md:text-8xl font-extrabold text-[#3d2817] mb-4 leading-tight uppercase tracking-tight transform hover:scale-105 transition-transform duration-300">
           Grow Knowledge<br />Together
         </h1>
         <p className="text-lg text-[#3d2817] mb-8 max-w-md mx-auto">

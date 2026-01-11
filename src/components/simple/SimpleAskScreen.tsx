@@ -141,7 +141,7 @@ export function SimpleAskScreen({ navigateTo, goBack, canGoBack, currentUser, ad
 
   return (
     <div className="min-h-screen bg-[#faf9f7] relative" style={{ backgroundImage: 'radial-gradient(circle, #e5e7eb 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
-      <SimpleNav currentScreen="my-garden" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} goBack={goBack} canGoBack={canGoBack} />
+      <SimpleNav currentScreen="my-garden" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} setCurrentQuestionId={setCurrentQuestionId} setNotifications={setNotifications} goBack={goBack} canGoBack={canGoBack} />
       
       <div className="max-w-2xl mx-auto px-6 py-12">
         {!showAIResponse && !isGenerating && !showAIPreview && (

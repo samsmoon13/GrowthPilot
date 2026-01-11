@@ -6,9 +6,9 @@ import { SimpleAIAnswerScreen } from './components/simple/SimpleAIAnswerScreen';
 import { SimpleMyGardenScreen } from './components/simple/SimpleMyGardenScreen';
 import { SimpleForestScreen } from './components/simple/SimpleForestScreen';
 import { SimpleTreeMapScreen } from './components/simple/SimpleTreeMapScreen';
-import { SimpleDemoMode } from './components/simple/SimpleDemoMode';
 import { SimpleNotificationsScreen } from './components/simple/SimpleNotificationsScreen';
 import { SimpleAnswerQuestionScreen } from './components/simple/SimpleAnswerQuestionScreen';
+import { SimpleExploreScreen } from './components/simple/SimpleExploreScreen';
 
 export type Screen = 
   | 'login'
@@ -18,9 +18,9 @@ export type Screen =
   | 'my-garden'
   | 'forest'
   | 'tree-map'
-  | 'demo-mode'
   | 'notifications'
-  | 'answer-question';
+  | 'answer-question'
+  | 'explore';
 
 export interface Question {
   id: string;
@@ -404,12 +404,12 @@ export default function App() {
         return <SimpleForestScreen {...screenProps} />;
       case 'tree-map':
         return <SimpleTreeMapScreen {...screenProps} />;
-      case 'demo-mode':
-        return <SimpleDemoMode {...screenProps} />;
       case 'notifications':
         return <SimpleNotificationsScreen {...screenProps} />;
       case 'answer-question':
         return <SimpleAnswerQuestionScreen {...screenProps} />;
+      case 'explore':
+        return <SimpleExploreScreen {...screenProps} />;
       default:
         return <SimpleHomeScreen {...screenProps} />;
     }

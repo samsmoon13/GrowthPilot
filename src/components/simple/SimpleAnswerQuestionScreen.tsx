@@ -17,6 +17,8 @@ interface SimpleAnswerQuestionScreenProps {
   addAnswer: (questionId: string, answer: Answer) => void;
   notifications: Record<string, any[]>;
   setCurrentUser: (user: string) => void;
+  setCurrentQuestionId: (id: string) => void;
+  setNotifications: (notifications: Record<string, any[]>) => void;
 }
 
 export function SimpleAnswerQuestionScreen({
@@ -28,6 +30,8 @@ export function SimpleAnswerQuestionScreen({
   addAnswer,
   notifications,
   setCurrentUser,
+  setCurrentQuestionId,
+  setNotifications,
 }: SimpleAnswerQuestionScreenProps) {
   const [answerText, setAnswerText] = useState('');
   const [showGrowthAnimation, setShowGrowthAnimation] = useState(false);
@@ -36,7 +40,7 @@ export function SimpleAnswerQuestionScreen({
   if (!currentQuestion) {
     return (
       <div className="min-h-screen bg-[#faf9f7]" style={{ backgroundImage: 'radial-gradient(circle, #e5e7eb 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
-        <SimpleNav currentScreen="answer-question" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} />
+        <SimpleNav currentScreen="answer-question" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} setCurrentQuestionId={setCurrentQuestionId} setNotifications={setNotifications} />
         <div className="max-w-3xl mx-auto px-6 py-12">
           <p className="text-gray-600 text-center">Question not found</p>
         </div>
@@ -85,7 +89,7 @@ export function SimpleAnswerQuestionScreen({
 
   return (
     <div className="min-h-screen bg-[#faf9f7] relative" style={{ backgroundImage: 'radial-gradient(circle, #e5e7eb 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
-      <SimpleNav currentScreen="answer-question" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} goBack={goBack} canGoBack={canGoBack} />
+      <SimpleNav currentScreen="answer-question" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} setCurrentQuestionId={setCurrentQuestionId} setNotifications={setNotifications} goBack={goBack} canGoBack={canGoBack} />
 
       {/* Magical Growth Animation Overlay */}
       {showGrowthAnimation && (

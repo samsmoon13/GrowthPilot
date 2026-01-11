@@ -18,9 +18,10 @@ interface SimpleMyGardenScreenProps {
   notifications: Record<string, Notification[]>;
   setCurrentQuestionId: (id: string) => void;
   setCurrentUser: (user: string) => void;
+  setNotifications: (notifications: Record<string, Notification[]>) => void;
 }
 
-export function SimpleMyGardenScreen({ navigateTo, goBack, canGoBack, currentUser, questions, markBestAnswer, notifications, setCurrentQuestionId, setCurrentUser }: SimpleMyGardenScreenProps) {
+export function SimpleMyGardenScreen({ navigateTo, goBack, canGoBack, currentUser, questions, markBestAnswer, notifications, setCurrentQuestionId, setCurrentUser, setNotifications }: SimpleMyGardenScreenProps) {
   const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null);
   const [viewingAnswers, setViewingAnswers] = useState(false);
 
@@ -75,7 +76,7 @@ export function SimpleMyGardenScreen({ navigateTo, goBack, canGoBack, currentUse
   if (viewingAnswers && selectedQuestion) {
     return (
       <div className="min-h-screen bg-[#faf9f7]" style={{ backgroundImage: 'radial-gradient(circle, #e5e7eb 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
-        <SimpleNav currentScreen="my-garden" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} />
+        <SimpleNav currentScreen="my-garden" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} setCurrentQuestionId={setCurrentQuestionId} setNotifications={setNotifications} />
         
         <div className="max-w-3xl mx-auto px-6 py-12">
           <Button
@@ -159,7 +160,7 @@ export function SimpleMyGardenScreen({ navigateTo, goBack, canGoBack, currentUse
 
   return (
     <div className="min-h-screen bg-[#faf9f7] relative" style={{ backgroundImage: 'radial-gradient(circle, #e5e7eb 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
-      <SimpleNav currentScreen="my-garden" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} goBack={goBack} canGoBack={canGoBack} />
+      <SimpleNav currentScreen="my-garden" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} setCurrentQuestionId={setCurrentQuestionId} setNotifications={setNotifications} goBack={goBack} canGoBack={canGoBack} />
       
       <div className="max-w-6xl mx-auto px-6 py-12">
         {/* Header */}

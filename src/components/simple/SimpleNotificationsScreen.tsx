@@ -62,6 +62,8 @@ export function SimpleNotificationsScreen({
         currentUser={currentUser}
         notifications={notifications}
         setCurrentUser={setCurrentUser}
+        setCurrentQuestionId={setCurrentQuestionId}
+        setNotifications={setNotifications}
         goBack={goBack}
         canGoBack={canGoBack}
       />

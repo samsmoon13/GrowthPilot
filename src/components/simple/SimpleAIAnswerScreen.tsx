@@ -17,6 +17,7 @@ interface SimpleAIAnswerScreenProps {
   questions: Question[];
   setCurrentQuestionId: (id: string) => void;
   setCurrentUser: (user: string) => void;
+  setNotifications: (notifications: Record<string, any[]>) => void;
 }
 
 export function SimpleAIAnswerScreen({
@@ -29,6 +30,7 @@ export function SimpleAIAnswerScreen({
   questions,
   setCurrentQuestionId,
   setCurrentUser,
+  setNotifications,
 }: SimpleAIAnswerScreenProps) {
   const [isGenerating, setIsGenerating] = useState(true);
 
@@ -75,7 +77,7 @@ export function SimpleAIAnswerScreen({
 
   return (
     <div className="min-h-screen bg-[#faf9f7] relative" style={{ backgroundImage: 'radial-gradient(circle, #e5e7eb 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
-      <SimpleNav currentScreen="my-garden" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} goBack={goBack} canGoBack={canGoBack} />
+      <SimpleNav currentScreen="my-garden" navigateTo={navigateTo} currentUser={currentUser} notifications={notifications} setCurrentUser={setCurrentUser} setCurrentQuestionId={setCurrentQuestionId} setNotifications={setNotifications} goBack={goBack} canGoBack={canGoBack} />
       
       <div className="max-w-3xl mx-auto px-6 py-12">
         {isGenerating ? (
